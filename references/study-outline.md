@@ -57,7 +57,7 @@ Guidance:
 Commit and push the study folder immediately after completion.
 
 ```bash
-npx tsx skills/study/scripts/finalize-study.ts \
+npx tsx .agents/skills/study/scripts/finalize-study.ts \
   --study-dir ".studies/<timestamp>-<slug>"
 ```
 

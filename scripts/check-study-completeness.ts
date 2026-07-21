@@ -6,8 +6,8 @@
  * This file owns argv parsing, lexically-latest study discovery under `.studies` for `--latest`, regex and structural heuristics per checklist row, weighted scoring with required-only finalization gating, and stdout/stderr output with non-zero `process.exit` on missing paths or read failures.
  * Flow: parse flags -> resolve study directory -> read `study-*.md` -> derive metadata and per-item checks -> emit plain text or `--json`.
  *
- * @testing CLI: npx tsx skills/study/scripts/check-study-completeness.ts --latest
- * @testing CLI: npx tsx skills/study/scripts/check-study-completeness.ts --study .studies/2026-05-22-example-study/ --json
+ * @testing CLI: npx tsx .agents/skills/study/scripts/check-study-completeness.ts --latest
+ * @testing CLI: npx tsx .agents/skills/study/scripts/check-study-completeness.ts --study .studies/2026-05-22-example-study/ --json
  * @testing CLI manual: from repo root, run `--latest --json`, open the markdown under JSON `metadata.path`, and confirm each `checklist[].checked` value matches visible sections before trusting `canFinalize` for handoff to finalize tooling.
  *
  * @see skills/study/scripts/finalize-study.ts - Companion finalize script suggested in success output once required checklist rows pass and the study is ready to close out.
@@ -268,7 +268,7 @@ function checkStudy(studyPath: string, json: boolean = false): void {
     } else {
       console.log("\n✅ Study is complete and ready to finalize.");
       console.log("\nNext step:");
-      console.log("   npx tsx skills/study/scripts/finalize-study.ts \\");
+      console.log("   npx tsx .agents/skills/study/scripts/finalize-study.ts \\");
       console.log(`     --study-dir "${studyPath.replace(basename(studyPath), "")}"`);
     }
     

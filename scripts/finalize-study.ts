@@ -10,8 +10,8 @@
  *
  * @example
  * ```bash
- * npx tsx skills/study/scripts/finalize-study.ts --latest
- * npx tsx skills/study/scripts/finalize-study.ts --study-dir 2026-04-30-my-study
+ * npx tsx .agents/skills/study/scripts/finalize-study.ts --latest
+ * npx tsx .agents/skills/study/scripts/finalize-study.ts --study-dir 2026-04-30-my-study
  * ```
  *
  * @testing CLI: rerun `npm run file-overview-standards:target-brief -- --file skills/study/scripts/finalize-study.ts` from the repo root after editing this file.

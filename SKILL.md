@@ -47,17 +47,17 @@ For a direct command lookup, see [Quick Commands](#quick-commands) below.
 
 ```bash
 # Initialize a new study workspace
-npx tsx skills/study/scripts/init-study.ts \
+npx tsx .agents/skills/study/scripts/init-study.ts \
   --slug "<slug>" --title "<title>"
 
 # Commit and push a completed study
-npx tsx skills/study/scripts/finalize-study.ts \
+npx tsx .agents/skills/study/scripts/finalize-study.ts \
   --study-dir ".studies/<timestamp>-<slug>"
 
 # Check study completeness (16-item checklist)
-npx tsx skills/study/scripts/check-study-completeness.ts --latest
-npx tsx skills/study/scripts/check-study-completeness.ts --study ".studies/<timestamp>-slug/"
-npx tsx skills/study/scripts/check-study-completeness.ts --latest --json
+npx tsx .agents/skills/study/scripts/check-study-completeness.ts --latest
+npx tsx .agents/skills/study/scripts/check-study-completeness.ts --study ".studies/<timestamp>-slug/"
+npx tsx .agents/skills/study/scripts/check-study-completeness.ts --latest --json
 ```
 
 For the full script surface, see [Script Inventory](#script-inventory).

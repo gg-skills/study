@@ -9,7 +9,7 @@
  *
  * @example
  * ```bash
- * npx tsx skills/study/scripts/init-study.ts --slug my-study --title "My Study"
+ * npx tsx .agents/skills/study/scripts/init-study.ts --slug my-study --title "My Study"
  * ```
  *
  * @testing CLI: rerun `npm run file-overview-standards:target-brief -- --file skills/study/scripts/init-study.ts` from the repo root after editing this file.
