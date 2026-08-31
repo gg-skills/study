@@ -24,6 +24,8 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
+import { renderMarkdownDirectory } from "./render-markdown-html";
+
 /**
  * Parsed CLI flags for study selection, optional commit message override, and dry-run mode.
  */
@@ -223,6 +225,7 @@ function main(): void {
       : `docs(study): publish ${path.basename(resolvedStudy.relativePath)}`;
 
   const branchName = runGitCommand(["rev-parse", "--abbrev-ref", "HEAD"], repoRoot);
+  const htmlResults = args.dryRun ? [] : renderMarkdownDirectory(resolvedStudy.absolutePath);
 
   if (!args.dryRun) {
     runGitCommand(["add", "--", resolvedStudy.relativePath], repoRoot);
@@ -257,6 +260,8 @@ function main(): void {
     studyDir: resolvedStudy.relativePath,
     commitMessage,
     pushed: !args.dryRun,
+    markdownFiles: htmlResults.map((result) => result.markdown),
+    htmlFiles: htmlResults.map((result) => result.html),
   };
 
   console.log(JSON.stringify(output, null, 2));

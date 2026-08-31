@@ -20,6 +20,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { renderMarkdownDirectory } from "./render-markdown-html";
+
 /**
  * Parsed CLI contract for `init-study`, including resolved paths and optional timestamp override.
  */
@@ -320,6 +322,8 @@ function main(): void {
     });
   }
 
+  const htmlResults = args.dryRun ? [] : renderMarkdownDirectory(studyDir);
+
   const output = {
     dryRun: args.dryRun,
     studiesRoot,
@@ -331,6 +335,7 @@ function main(): void {
     appendixes: DEFAULT_APPENDIX_FILES.map((appendix) =>
       path.join(studyDir, appendix),
     ),
+    htmlFiles: htmlResults.map((result) => result.html),
   };
 
   console.log(JSON.stringify(output, null, 2));

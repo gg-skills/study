@@ -58,6 +58,10 @@ npx tsx .agents/skills/study/scripts/finalize-study.ts \
 npx tsx .agents/skills/study/scripts/check-study-completeness.ts --latest
 npx tsx .agents/skills/study/scripts/check-study-completeness.ts --study ".studies/<timestamp>-slug/"
 npx tsx .agents/skills/study/scripts/check-study-completeness.ts --latest --json
+
+# After any study markdown write: generate sibling HTML and print absolute paths
+npx tsx .agents/skills/study/scripts/render-markdown-html.ts --input ".studies/<timestamp>-<slug>/study-<slug>.md"
+npx tsx .agents/skills/study/scripts/render-markdown-html.ts --dir ".studies/<timestamp>-<slug>"
 ```
 
 For the full script surface, see [Script Inventory](#script-inventory).
@@ -290,6 +294,7 @@ Before finalizing, verify:
 6. Unresolved open questions must be decision-ready subsections with viable options, concrete consequences, and blocking impact. When none remain, say so explicitly.
 7. Native Codex sub-agents are optional deepening helpers. Execute the six-lane pass only after explicit user approval, keep one parent writer, and integrate findings incrementally.
 8. Commit and push the completed study folder immediately; scope must include only the study folder. For any answer about models, pricing, or current versions of external tools: treat bundled data as likely stale and verify with the research skill before stating specifics.
+9. After creating or updating any study markdown file, generate its sibling HTML with `scripts/render-markdown-html.ts` and report the **absolute paths** of the markdown file(s) and the HTML page(s) to the user.
 
 ## Standard Output Layout
 
@@ -298,6 +303,7 @@ Inside each timestamped study folder:
 | Artifact | Path |
 |----------|------|
 | Main study | `study-<slug>.md` |
+| HTML twin | same basename with `.html` (next to each modified `.md`) |
 | File inventory | `appendix-01-file-inventory.md` |
 | References | `appendix-02-references.md` |
 | Validation and tests | `appendix-03-validation-and-tests.md` |
@@ -334,7 +340,7 @@ Recommended parent pattern:
 2. **Initialize study workspace.** Run `init-study.ts` (see Quick Commands). If Firecrawl is part of evidence collection, write fetched payloads under `firecrawl/raw/` and notes under `firecrawl/reports/`.
 3. **Collect evidence.** Gather affected files, command outputs, test results, and log excerpts.
 4. **Write the main study.** Follow the outline in `references/study-outline.md`. Include problem framing, current state, options, tradeoffs, risks, recommendation, and migration plan. When UI/page implementation guidance is in scope, create a visible local UI spec artifact inside the study folder.
-5. **Create appendixes.** Keep raw/verbose artifacts in appendixes; keep the main study decision-oriented.
+5. **Create appendixes.** Keep raw/verbose artifacts in appendixes; keep the main study decision-oriented. After any markdown write, run `render-markdown-html.ts` so each `.md` has a sibling `.html`.
 6. **Verify consistency.** Ensure paths exist, options are internally consistent, and recommendation matches evidence.
 7. **Propose post-study actions.** Adapt action names to context. Use `SCREAMING_SNAKE_CASE`. Include at least one option for plan write-down, depth increase, and online research.
 8. **Finalize and publish.** Run `finalize-study.ts` (see Quick Commands). Do not skip this step by default.
@@ -352,6 +358,7 @@ For the detailed section outline and open-question template, see `references/stu
 
 When presenting a completed study, include a short proposal block with:
 
+- The **absolute path** of each study markdown file that was created or updated, and the **absolute path** of its HTML twin.
 - At least 3 context-adapted actions using `SCREAMING_SNAKE_CASE`.
 - One action for each default intent: plan write-down, depth increase, online research.
 - `CREATE_SPECS_FOR_FINDINGS` when issues or opportunities were discovered.
@@ -387,6 +394,7 @@ When presenting a completed study, include a short proposal block with:
 3. **Shallow open questions** -- Write full subsections with options and consequences, not bare fragments. See the template in `references/study-outline.md`.
 4. **Jumping to implementation** -- Always hand off to `plan/SKILL.md` first. Implementation without a plan is a policy violation.
 5. **Reading all references for every study** -- Load only `references/study-outline.md` unless the task specifically needs deeper reference material.
+6. **Skipping HTML twins or relative-only paths** -- After any markdown write, generate sibling HTML and give the user absolute paths to both.
 
 ## Troubleshooting
 
@@ -403,7 +411,8 @@ When presenting a completed study, include a short proposal block with:
 | Script | Purpose |
 |--------|---------|
 | `scripts/init-study.ts` | Initializes `.studies/<timestamp>-<slug>/` with a main study file and standard appendix stubs. |
-| `scripts/finalize-study.ts` | Stages only the specified study folder, commits it, and pushes the current branch. |
+| `scripts/render-markdown-html.ts` | Writes a sibling `.html` for a markdown file or every `.md` in a study folder; prints absolute paths. |
+| `scripts/finalize-study.ts` | Regenerates HTML twins, then stages only the specified study folder, commits it, and pushes the current branch. |
 
 ## Local Corpus Layout
 

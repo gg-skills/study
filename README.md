@@ -56,6 +56,7 @@ Skip when the user is ready to implement (use `plan`), when the fix is trivial w
 |----------|------|--------|
 | Study workspace | `.studies/YYYY-MM-DD-HHmmss-<slug>/` | Folder |
 | Main study | `.studies/…/study-<slug>.md` | Markdown |
+| HTML twins | `.studies/…/*.html` next to each `.md` | Minimal HTML |
 | File inventory | `.studies/…/appendix-01-file-inventory.md` | Markdown stub |
 | References | `.studies/…/appendix-02-references.md` | Markdown stub |
 | Validation & tests | `.studies/…/appendix-03-validation-and-tests.md` | Markdown stub |
@@ -72,6 +73,7 @@ Appendixes are optional; create only those that add value. Studies are **never**
 | Command | When invoked |
 |---------|-------------|
 | `npx tsx .../init-study.ts --slug <slug> --title <title>` | At study start to scaffold the timestamped folder and appendix stubs |
+| `npx tsx .../render-markdown-html.ts --input <file.md>` | After any study markdown write; prints absolute markdown and HTML paths |
 | `npx tsx .../finalize-study.ts --study-dir <path>` | Immediately after study completion to stage, commit, and push the study folder |
 | `git add`, `git commit`, `git push` | Called internally by `finalize-study.ts` via `child_process.execSync` |
 | `research-online` / Firecrawl CLI | When external best-practice evidence is needed; raw payloads land in `firecrawl/raw/` |
@@ -129,8 +131,8 @@ study/
 │   └── study-outline.md              # Section outline + open-question template
 ├── scripts/
 │   ├── init-study.ts                 # Scaffold a new .studies/ folder
-│   ├── finalize-study.ts             # Stage, commit, and push a completed study
-│   └── openai.yaml                   # OpenAI-compatible agent spec (optional)
+│   ├── render-markdown-html.ts       # Sibling HTML for study markdown
+│   └── finalize-study.ts             # Stage, commit, and push a completed study
 ├── agents/
 │   └── codex-subagents/
 │       ├── codepath-cartographer.md
@@ -173,6 +175,7 @@ npx tsx .claude/skills/study/scripts/init-study.ts \
 ## Caveats
 
 - Studies **must** go under `.studies/`, never `docs/`. The finalize script scopes its commit to the study folder only; unrelated staged changes will cause it to abort.
+- After any markdown write, generate sibling HTML and report **absolute paths** to both the `.md` and `.html`.
 - Planning via `plan` is **mandatory** before implementation; this skill explicitly blocks the jump from study to code.
 - The six-lane Codex sub-agent deepening pass is **opt-in** and requires explicit user approval each time.
 - `init-study.ts` uses the **host timezone** for the timestamp prefix — verify if reproducible folder names across CI and developer machines matter for your workflow.

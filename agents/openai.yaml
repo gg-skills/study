@@ -7,5 +7,6 @@ interface:
   default_prompt: >-
     Use when the user needs a rigorous technical study with evidence and decision rationale before
     implementation, or when unresolved architecture questions require structured analysis. Saves
-    studies under .studies/ and hands off to planning, decisions, or research skills. Reference
-    study/SKILL.md when cross-referencing this skill.
+    studies under .studies/, writes sibling HTML for each markdown file, reports absolute paths to
+    both, and hands off to planning, decisions, or research skills. Reference study/SKILL.md when
+    cross-referencing this skill.
