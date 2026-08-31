@@ -359,7 +359,7 @@ For the detailed section outline and open-question template, see `references/stu
 When presenting a completed study, include a short proposal block with:
 
 - The **absolute path** of each study markdown file that was created or updated, and the **absolute path** of its HTML twin.
-- At least 3 context-adapted actions using `SCREAMING_SNAKE_CASE`.
+- At least 3 context-adapted actions using `SCREAMING_SNAKE_CASE`, presented per `chooseable-options/SKILL.md` (printed tokens **and** the harness Ask User picker when available).
 - One action for each default intent: plan write-down, depth increase, online research.
 - `CREATE_SPECS_FOR_FINDINGS` when issues or opportunities were discovered.
 - `DEEPEN_STUDY_WITH_SIX_SUBAGENTS` when the study is strong but the concrete change map is still fuzzy.
