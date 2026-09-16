@@ -20,7 +20,7 @@ For a direct command lookup, see [Quick Commands](#quick-commands) below.
 
 **TRIGGER when:**
 - The user asks to study, research, analyze, or evaluate a technical decision before implementation.
-- A Codex session inspection surfaced unresolved workflow, heuristic, or architecture questions.
+- A session inspection (Codex or other harness) surfaced unresolved workflow, heuristic, or architecture questions.
 - Evidence exists but the concrete change inventory, regression scope, or operator blast radius is still fuzzy.
 - The user needs a structured comparison of options with tradeoffs and a recommendation.
 
@@ -36,7 +36,7 @@ For a direct command lookup, see [Quick Commands](#quick-commands) below.
 | 1 | A study is just a long explanation. | A study is a decision artifact with options, tradeoffs, and a recommendation, not prose. | Decision artifact |
 | 2 | Studies should be saved under `docs/`. | Studies go under `.studies/`; `docs/` is for human-facing documentation. | Workspace boundary |
 | 3 | Open questions can be a shallow bullet list. | Each open question must be a decision-ready subsection with options and consequences. | Decision-ready format |
-| 4 | Native Codex sub-agents are the default path. | Sub-agents are optional deepening helpers used only after explicit approval. | Optional deepening |
+| 4 | Sub-agents are the default path. | Sub-agents are optional deepening helpers used only after explicit approval. | Optional deepening |
 | 5 | A study can jump straight to implementation. | Planning via `plan/SKILL.md` is mandatory before implementation. | Planning gate |
 | 6 | A study is complete when it has recommendations. | A complete study has evidence for every claim and paths to all referenced files. | Evidence anchoring |
 | 7 | Any evidence is sufficient for a claim. | Evidence must be concrete: file paths, command outputs, test results—not assertions. | Evidence quality |
@@ -292,7 +292,7 @@ Before finalizing, verify:
 4. Load only the subset of `references/` the task requires. Do not read every file by default.
 5. After completing a study, propose context-adapted follow-up actions using `SCREAMING_SNAKE_CASE` names. Include at least one option for plan write-down, depth increase, and online research. The mandatory next step toward implementation is planning via `plan/SKILL.md`.
 6. Unresolved open questions must be decision-ready subsections with viable options, concrete consequences, and blocking impact. When none remain, say so explicitly.
-7. Native Codex sub-agents are optional deepening helpers. Execute the six-lane pass only after explicit user approval, keep one parent writer, and integrate findings incrementally.
+7. Sub-agent deepening is an opt-in extension. Execute the six-lane pass only after explicit user approval, keep one parent writer, and integrate findings incrementally. The sub-agent harness may be Codex or any other agent platform that supports parallel child processes.
 8. Commit and push the completed study folder immediately; scope must include only the study folder. For any answer about models, pricing, or current versions of external tools: treat bundled data as likely stale and verify with the research skill before stating specifics.
 9. After creating or updating any study markdown file, generate its sibling HTML with `scripts/render-markdown-html.ts` and report the **absolute paths** of the markdown file(s) and the HTML page(s) to the user.
 
@@ -315,9 +315,9 @@ Inside each timestamped study folder:
 
 Appendixes are optional; create only those that add value.
 
-## Native Codex Child Roles
+## Six-Lane Child Roles
 
-Use the following skill-local prompt assets when the user explicitly approves a bounded six-lane deepening pass:
+Use the following skill-local prompt assets when the user explicitly approves a bounded six-lane deepening pass. The harness that dispatches the child processes is not prescribed — these role prompts can be assigned to any sub-agent provider that the active harness supports.
 
 - `agents/codex-subagents/codepath-cartographer.md`
 - `agents/codex-subagents/runtime-contract-auditor.md`

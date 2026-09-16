@@ -29,7 +29,7 @@ Restart your agent or reload skills after installation. See the parent [`skills`
 ## When to use
 
 - The user asks to **study, research, analyze, or evaluate** a technical decision before implementation.
-- A Codex session inspection surfaced **unresolved workflow, heuristic, or architecture questions**.
+- A session inspection (Codex or other harness) surfaced **unresolved workflow, heuristic, or architecture questions**.
 - Evidence exists but the concrete change inventory, regression scope, or operator blast radius is still **fuzzy**.
 - The user needs a **structured comparison of options** with tradeoffs and a recommendation.
 
@@ -90,7 +90,7 @@ Appendixes are optional; create only those that add value. Studies are **never**
 | Flag / condition | Effect |
 |-----------------|--------|
 | `--dry-run` | Both scripts print what they would do without writing files or touching git |
-| Explicit user approval of deepening | Activates the six-lane Codex sub-agent pass (one parent writer, six disjoint child roles) |
+| Explicit user approval of deepening | Activates the six-lane sub-agent deepening pass (one parent writer, six disjoint child roles; harness-agnostic) |
 | `--latest` on `finalize-study.ts` | Auto-resolves to the most-recently-created folder under `.studies/` |
 
 ## Operational flow
@@ -108,7 +108,7 @@ flowchart TD
     H --> I[Write main study-slug.md\nproblem · options · tradeoffs · recommendation]
     G -- No --> I
     I --> J{Deep analysis\napproved?}
-    J -- Yes --> K[Spawn six codex sub-agents\none parent writer · integrate findings]
+    J -- Yes --> K[Spawn six sub-agents\none parent writer · integrate findings]
     K --> L[Verify consistency;\nall options internally coherent]
     J -- No --> L
     L --> M[Run finalize-study.ts\n--study-dir path]
@@ -177,6 +177,6 @@ npx tsx .claude/skills/study/scripts/init-study.ts \
 - Studies **must** go under `.studies/`, never `docs/`. The finalize script scopes its commit to the study folder only; unrelated staged changes will cause it to abort.
 - After any markdown write, generate sibling HTML and report **absolute paths** to both the `.md` and `.html`.
 - Planning via `plan` is **mandatory** before implementation; this skill explicitly blocks the jump from study to code.
-- The six-lane Codex sub-agent deepening pass is **opt-in** and requires explicit user approval each time.
+- The six-lane sub-agent deepening pass is **opt-in** and requires explicit user approval each time. The child roles can be dispatched on any harness that supports parallel sub-agents.
 - `init-study.ts` uses the **host timezone** for the timestamp prefix — verify if reproducible folder names across CI and developer machines matter for your workflow.
 - Any claims about external tool versions, model pricing, or API specifics bundled in `references/` may be stale; verify with `research-online` before acting on them.
