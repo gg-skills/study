@@ -1,7 +1,7 @@
 ---
 role: operator-surface-auditor
 scope: study
-mode: native-codex
+mode: subagent
 ---
 
 # Operator Surface Auditor

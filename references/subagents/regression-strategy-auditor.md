@@ -1,7 +1,7 @@
 ---
 role: regression-strategy-auditor
 scope: study
-mode: native-codex
+mode: subagent
 ---
 
 # Regression Strategy Auditor

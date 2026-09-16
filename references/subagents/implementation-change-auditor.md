@@ -1,7 +1,7 @@
 ---
 role: implementation-change-auditor
 scope: study
-mode: native-codex
+mode: subagent
 ---
 
 # Implementation Change Auditor

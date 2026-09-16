@@ -1,7 +1,7 @@
 ---
 role: runtime-contract-auditor
 scope: study
-mode: native-codex
+mode: subagent
 ---
 
 # Runtime Contract Auditor

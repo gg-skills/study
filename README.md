@@ -29,7 +29,7 @@ Restart your agent or reload skills after installation. See the parent [`skills`
 ## When to use
 
 - The user asks to **study, research, analyze, or evaluate** a technical decision before implementation.
-- A session inspection (Codex or other harness) surfaced **unresolved workflow, heuristic, or architecture questions**.
+- A session inspection surfaced **unresolved workflow, heuristic, or architecture questions**.
 - Evidence exists but the concrete change inventory, regression scope, or operator blast radius is still **fuzzy**.
 - The user needs a **structured comparison of options** with tradeoffs and a recommendation.
 
@@ -48,7 +48,7 @@ Skip when the user is ready to implement (use `plan`), when the fix is trivial w
 | `--commit-message` flag | Optional override of the default git commit message in `finalize-study.ts` |
 | `--dry-run` flag | Supported by both scripts; prints actions without writing files or running git |
 | `references/study-outline.md` | Authoritative section outline and open-question template; loaded by the agent at study start |
-| `agents/codex-subagents/*.md` | Six prompt assets for optional deepening lanes; loaded only on explicit user approval |
+| `references/subagents/*.md` | Six canonical lane templates for the optional deepening pass; the active harness picks them up automatically |
 
 ### Outputs
 
@@ -128,19 +128,20 @@ study/
 ├── SKILL.md                          # Skill descriptor loaded by Claude Code
 ├── README.md                         # This file
 ├── references/
-│   └── study-outline.md              # Section outline + open-question template
-├── scripts/
-│   ├── init-study.ts                 # Scaffold a new .studies/ folder
-│   ├── render-markdown-html.ts       # Sibling HTML for study markdown
-│   └── finalize-study.ts             # Stage, commit, and push a completed study
-├── agents/
-│   └── codex-subagents/
+│   ├── study-outline.md              # Section outline + open-question template
+│   └── subagents/                    # Canonical six-lane deepening templates
 │       ├── codepath-cartographer.md
 │       ├── runtime-contract-auditor.md
 │       ├── implementation-change-auditor.md
 │       ├── regression-strategy-auditor.md
 │       ├── operator-surface-auditor.md
 │       └── documentation-workflow-auditor.md
+├── scripts/
+│   ├── init-study.ts                 # Scaffold a new .studies/ folder
+│   ├── render-markdown-html.ts       # Sibling HTML for study markdown
+│   └── finalize-study.ts             # Stage, commit, and push a completed study
+├── agents/
+│   └── openai.yaml                   # OpenAI plugin interface metadata
 └── assets/
     ├── icon-large.png / icon-large.svg
     ├── icon-master.png
@@ -168,7 +169,7 @@ npx tsx .claude/skills/study/scripts/init-study.ts \
 ## Resources
 
 - `references/study-outline.md` — canonical section template and open-question format
-- `agents/codex-subagents/` — six deepening-lane prompt assets
+- `references/subagents/` — six canonical deepening-lane templates; the active harness picks them up automatically
 - [SKILL.md](SKILL.md) — full skill descriptor, non-negotiable policies, cross-skill handoff table, and troubleshooting guide
 - Parent collection: [gg-skills/skills](https://github.com/gg-skills/skills)
 

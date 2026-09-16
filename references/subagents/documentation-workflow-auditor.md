@@ -1,7 +1,7 @@
 ---
 role: documentation-workflow-auditor
 scope: study
-mode: native-codex
+mode: subagent
 ---
 
 # Documentation Workflow Auditor

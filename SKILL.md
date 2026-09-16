@@ -12,7 +12,7 @@ description: when configuring technical studies with evidence and decision ratio
 
 Use this skill to produce structured, evidence-backed studies and persist them in a dedicated study workspace under the repository root `.studies/` directory.
 
-This skill also serves as the deeper-analysis handoff when the `codex-sessions` workflow finds unresolved workflow, heuristic, or architecture questions that should not go straight into implementation planning.
+This skill also serves as a deeper-analysis handoff when an agent-session inspection finds unresolved workflow, heuristic, or architecture questions that should not go straight into implementation planning.
 
 For a direct command lookup, see [Quick Commands](#quick-commands) below.
 
@@ -20,7 +20,7 @@ For a direct command lookup, see [Quick Commands](#quick-commands) below.
 
 **TRIGGER when:**
 - The user asks to study, research, analyze, or evaluate a technical decision before implementation.
-- A session inspection (Codex or other harness) surfaced unresolved workflow, heuristic, or architecture questions.
+- A session inspection surfaced unresolved workflow, heuristic, or architecture questions.
 - Evidence exists but the concrete change inventory, regression scope, or operator blast radius is still fuzzy.
 - The user needs a structured comparison of options with tradeoffs and a recommendation.
 
@@ -292,7 +292,7 @@ Before finalizing, verify:
 4. Load only the subset of `references/` the task requires. Do not read every file by default.
 5. After completing a study, propose context-adapted follow-up actions using `SCREAMING_SNAKE_CASE` names. Include at least one option for plan write-down, depth increase, and online research. The mandatory next step toward implementation is planning via `plan/SKILL.md`.
 6. Unresolved open questions must be decision-ready subsections with viable options, concrete consequences, and blocking impact. When none remain, say so explicitly.
-7. Sub-agent deepening is an opt-in extension. Execute the six-lane pass only after explicit user approval, keep one parent writer, and integrate findings incrementally. The sub-agent harness may be Codex or any other agent platform that supports parallel child processes.
+7. Sub-agent deepening is an opt-in extension. Execute the six-lane pass only after explicit user approval, keep one parent writer, and integrate findings incrementally. The sub-agent harness picks up the lane prompts from `references/subagents/` automatically; no harness-specific prose is required in this skill.
 8. Commit and push the completed study folder immediately; scope must include only the study folder. For any answer about models, pricing, or current versions of external tools: treat bundled data as likely stale and verify with the research skill before stating specifics.
 9. After creating or updating any study markdown file, generate its sibling HTML with `scripts/render-markdown-html.ts` and report the **absolute paths** of the markdown file(s) and the HTML page(s) to the user.
 
@@ -317,14 +317,14 @@ Appendixes are optional; create only those that add value.
 
 ## Six-Lane Child Roles
 
-Use the following skill-local prompt assets when the user explicitly approves a bounded six-lane deepening pass. The harness that dispatches the child processes is not prescribed — these role prompts can be assigned to any sub-agent provider that the active harness supports.
+The six canonical lane templates live in `references/subagents/`. Treat them as exemplars that this skill biases toward; the active harness decides how to invoke them and may substitute harness-specific variants for any lane without changing this skill.
 
-- `agents/codex-subagents/codepath-cartographer.md`
-- `agents/codex-subagents/runtime-contract-auditor.md`
-- `agents/codex-subagents/implementation-change-auditor.md`
-- `agents/codex-subagents/regression-strategy-auditor.md`
-- `agents/codex-subagents/operator-surface-auditor.md`
-- `agents/codex-subagents/documentation-workflow-auditor.md`
+- `references/subagents/codepath-cartographer.md`
+- `references/subagents/runtime-contract-auditor.md`
+- `references/subagents/implementation-change-auditor.md`
+- `references/subagents/regression-strategy-auditor.md`
+- `references/subagents/operator-surface-auditor.md`
+- `references/subagents/documentation-workflow-auditor.md`
 
 Recommended parent pattern:
 
@@ -416,12 +416,13 @@ When presenting a completed study, include a short proposal block with:
 
 ## Local Corpus Layout
 
-The `references/` directory contains a single hand-authored file:
+The `references/` directory contains hand-authored study assets:
 
-| File | Description |
+| Path | Description |
 |------|-------------|
 | `study-outline.md` | Reusable section outline and open-question template for the main study file. |
+| `subagents/` | Canonical lane templates for the optional six-lane deepening pass; the active harness picks them up automatically. |
 
-No subfolders. No vendored documentation snapshots. No captured corpus.
+No vendored documentation snapshots. No captured corpus.
 
 > **Snapshot age:** verified 2026-04-30.

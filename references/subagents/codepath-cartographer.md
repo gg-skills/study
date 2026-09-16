@@ -1,7 +1,7 @@
 ---
 role: codepath-cartographer
 scope: study
-mode: native-codex
+mode: subagent
 ---
 
 # Codepath Cartographer
