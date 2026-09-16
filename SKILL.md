@@ -292,7 +292,7 @@ Before finalizing, verify:
 4. Load only the subset of `references/` the task requires. Do not read every file by default.
 5. After completing a study, propose context-adapted follow-up actions using `SCREAMING_SNAKE_CASE` names. Include at least one option for plan write-down, depth increase, and online research. The mandatory next step toward implementation is planning via `plan/SKILL.md`.
 6. Unresolved open questions must be decision-ready subsections with viable options, concrete consequences, and blocking impact. When none remain, say so explicitly.
-7. Sub-agent deepening is an opt-in extension. Execute the six-lane pass only after explicit user approval, keep one parent writer, and integrate findings incrementally. The sub-agent harness picks up the lane prompts from `references/subagents/` automatically; no harness-specific prose is required in this skill.
+7. Sub-agent deepening is an opt-in extension. After explicit user approval, model the six-lane pass as six **tracked sub-tasks** (to-do entries or equivalent per-lane state), one lane at a time, no batch-level retry. Dispatch in parallel when the active harness allows; fall back to in-order dispatch when parallelism caps are hit, in the order `codepath → runtime-contract → implementation-change → regression-strategy → operator-surface → documentation-workflow`. Integrate each lane's findings as soon as its sub-task moves to `done`. Only retry the lanes whose sub-task lands in `failed` — never re-run a completed lane.
 8. Commit and push the completed study folder immediately; scope must include only the study folder. For any answer about models, pricing, or current versions of external tools: treat bundled data as likely stale and verify with the research skill before stating specifics.
 9. After creating or updating any study markdown file, generate its sibling HTML with `scripts/render-markdown-html.ts` and report the **absolute paths** of the markdown file(s) and the HTML page(s) to the user.
 
@@ -328,11 +328,14 @@ The six canonical lane templates live in `references/subagents/`. Treat them as 
 
 Recommended parent pattern:
 
-1. Keep one parent writer and publisher.
-2. Assign disjoint lanes to the six child roles.
-3. Integrate findings back into the study as each lane finishes.
-4. Normalize overlaps or contradictions before final closeout.
-5. Re-run consistency after the last integration pass.
+1. **Set up six tracked sub-tasks** — one per lane — before any dispatch (to-do list, checklist, or equivalent per-lane state record). Each lane has its own status: `pending`, `in_progress`, `done`, or `failed`. Do not treat the six lanes as a single batch.
+2. **Keep one parent writer and publisher** that owns the study file. Lanes return findings as JSON, prose, or scratch artifacts they explicitly own; the parent is the only writer to the main study until final closeout.
+3. **Dispatch in parallel** by default when the active harness allows it; this is the fastest lane-to-lane composition for handoffs that have no inherent ordering.
+4. **Fall back to in-order** dispatch if the harness caps parallel sub-agents (token limits, concurrency caps, host throttling, etc.). Use the canonical lane order: `codepath-cartographer → runtime-contract-auditor → implementation-change-auditor → regression-strategy-auditor → operator-surface-auditor → documentation-workflow-auditor`. A later lane starts only after the previous one has returned.
+5. **Integrate per lane, as soon as it returns.** Update the sub-task to `done` and merge its findings into the study or the relevant appendix immediately. Do not wait for the whole batch to land.
+6. **Retry only failed lanes.** A sub-task in `failed` can be retried independently (one retry path per lane); completed lanes are never re-run, even if their findings are later revised by another lane.
+7. **Normalize overlaps or contradictions** only after every tracked sub-task reaches a terminal state (`done` or `failed-and-exhausted`).
+8. **Re-run consistency** after the last integration pass.
 
 ## Workflow
 

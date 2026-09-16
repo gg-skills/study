@@ -90,7 +90,7 @@ Appendixes are optional; create only those that add value. Studies are **never**
 | Flag / condition | Effect |
 |-----------------|--------|
 | `--dry-run` | Both scripts print what they would do without writing files or touching git |
-| Explicit user approval of deepening | Activates the six-lane sub-agent deepening pass (one parent writer, six disjoint child roles; harness-agnostic) |
+| Explicit user approval of deepening | Activates the six-lane sub-agent deepening pass; each lane is its own tracked sub-task (parallel preferred, in-order fallback in canonical lane order); integrate per lane and retry only failed lanes |
 | `--latest` on `finalize-study.ts` | Auto-resolves to the most-recently-created folder under `.studies/` |
 
 ## Operational flow
@@ -108,7 +108,7 @@ flowchart TD
     H --> I[Write main study-slug.md\nproblem · options · tradeoffs · recommendation]
     G -- No --> I
     I --> J{Deep analysis\napproved?}
-    J -- Yes --> K[Spawn six sub-agents\none parent writer · integrate findings]
+    J -- Yes --> K[Each lane = tracked sub-task\nparallel preferred · in-order fallback\nintegrate as each returns]
     K --> L[Verify consistency;\nall options internally coherent]
     J -- No --> L
     L --> M[Run finalize-study.ts\n--study-dir path]
@@ -178,6 +178,6 @@ npx tsx .claude/skills/study/scripts/init-study.ts \
 - Studies **must** go under `.studies/`, never `docs/`. The finalize script scopes its commit to the study folder only; unrelated staged changes will cause it to abort.
 - After any markdown write, generate sibling HTML and report **absolute paths** to both the `.md` and `.html`.
 - Planning via `plan` is **mandatory** before implementation; this skill explicitly blocks the jump from study to code.
-- The six-lane sub-agent deepening pass is **opt-in** and requires explicit user approval each time. The child roles can be dispatched on any harness that supports parallel sub-agents.
+- The six-lane sub-agent deepening pass is **opt-in**, requires explicit user approval each time, and runs each lane as its own tracked sub-task. Parallel dispatch is preferred; the harness falls back to in-order dispatch in the canonical lane order (`codepath-cartographer → runtime-contract-auditor → implementation-change-auditor → regression-strategy-auditor → operator-surface-auditor → documentation-workflow-auditor`) when parallelism caps are hit. Each lane's findings are integrated as soon as the sub-task returns; only failed lanes are retried.
 - `init-study.ts` uses the **host timezone** for the timestamp prefix — verify if reproducible folder names across CI and developer machines matter for your workflow.
 - Any claims about external tool versions, model pricing, or API specifics bundled in `references/` may be stale; verify with `research-online` before acting on them.
