@@ -47,6 +47,7 @@ For a direct command lookup, see [Quick Commands](#quick-commands) below.
 
 ```bash
 # Initialize a new study workspace
+# Runner alternatives: bunx tsx / pnpm dlx tsx / deno run -A npm:tsx / node --import tsx / yarn dlx tsx
 npx tsx .agents/skills/study/scripts/init-study.ts \
   --slug "<slug>" --title "<title>"
 
@@ -429,3 +430,5 @@ The `references/` directory contains hand-authored study assets:
 No vendored documentation snapshots. No captured corpus.
 
 > **Snapshot age:** verified 2026-04-30.
+
+[^rt]: `npx tsx` accepts any standard runner — `bunx tsx`, `pnpm dlx tsx`, `deno run -A npm:tsx`, `node --import tsx`, or `yarn dlx tsx`. The first five auto-fetch `tsx` on demand; only `node --import tsx` requires `tsx` to be installed locally first (`npm i -D tsx`, or `npm i -g tsx` if you cannot reach the npm registry). Bun users can also skip `tsx` entirely and run TypeScript directly via `bun <script>`. Pick whichever your project ships. The canonical runtime decision table lives in the `skills-manager` skill under `Runtime Selection` (only available when working in the full `gg-skills` monorepo).
